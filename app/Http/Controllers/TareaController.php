@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tarea;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class TareaController extends Controller
@@ -12,7 +13,10 @@ class TareaController extends Controller
      */
     public function index()
     {
-        //
+        $tareas = Tarea::all();
+        $tags = Tag::with('tareas')->get();
+        return view('tareas.index',compact('tags'), compact('tareas'));
+        
     }
 
     /**
@@ -20,7 +24,8 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
+        $tags = Tag::all(); // Obtener todas las etiquetas disponibles
+        return view('tareas.create', compact('tags'));
     }
 
     /**
@@ -28,7 +33,17 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([ 
+        'nombre' => 'required',
+        'descripcion' => 'required',
+        'fecha_comienzo'=> 'required',
+        'fecha_final'=> 'required',
+        'tag_id'=> 'required'
+        ]);
+        
+        Tarea::create($request->all());
+        
+        return redirect()->route('tareas.index')->with('success', 'Tarea creada correctamente');
     }
 
     /**
@@ -44,7 +59,9 @@ class TareaController extends Controller
      */
     public function edit(Tarea $tarea)
     {
-        //
+        $tag_original = $tarea->tag;
+        $tags = Tag::all();
+         return view('tareas.edit', compact('tag_original', 'tags', 'tarea'));
     }
 
     /**
@@ -52,7 +69,19 @@ class TareaController extends Controller
      */
     public function update(Request $request, Tarea $tarea)
     {
-        //
+        $request->validate([ 
+        'nombre' => 'required',
+        'descripcion' => 'required',
+        'fecha_comienzo'=> 'required',
+        'fecha_final'=> 'required',
+        'tag_id'=> 'required'
+        ]);
+        
+        $tarea->update($request->all());
+        
+        return redirect()->route('tareas.index')
+                        ->with('success', 'Tarea actualizada correctamente');
+        
     }
 
     /**
@@ -60,6 +89,10 @@ class TareaController extends Controller
      */
     public function destroy(Tarea $tarea)
     {
-        //
+        $tarea->delete();
+        
+        return redirect()->route('tareas.index')
+            ->with('success', 'Tarea Eliminada correctamente');
+        
     }
 }
