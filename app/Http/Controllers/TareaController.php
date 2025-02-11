@@ -61,9 +61,10 @@ class TareaController extends Controller
      */
     public function edit(Tarea $tarea)
     {
+        Gate::authorize('manage', $tarea);
         $tag_original = $tarea->tag;
         $tags = Tag::all();
-         return view('tareas.edit', compact('tag_original', 'tags', 'tarea'));
+        return view('tareas.edit', compact('tag_original', 'tags', 'tarea'));
     }
 
     /**
@@ -71,6 +72,7 @@ class TareaController extends Controller
      */
     public function update(Request $request, Tarea $tarea)
     {
+        Gate::authorize('manage', $tarea);
         $request->validate([ 
         'nombre' => 'required',
         'descripcion' => 'required',
@@ -91,6 +93,7 @@ class TareaController extends Controller
      */
     public function destroy(Tarea $tarea)
     {
+        Gate::authorize('manage', $tarea);
         $tarea->delete();
         
         return redirect()->route('tareas.index')

@@ -12,7 +12,10 @@
                     {{ __("You're logged in!") }}
                     <br>
                    <a href="{{ route('tareas.index') }}" class="text-blue-500 hover:text-blue-950">Tareas</a>
-
+                    <br>
+                   @can('admin_access')
+                   <a href="{{ route('tags.index') }}" class="text-blue-500 hover:text-blue-950">Tags</a>
+                   @endcan
                 </div>
             </div>
         </div>
