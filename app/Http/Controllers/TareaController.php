@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Tarea;
 use App\Models\Tag;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class TareaController extends Controller
         'descripcion' => 'required',
         'fecha_comienzo'=> 'required',
         'fecha_final'=> 'required',
-        'tag_id'=> 'required'
+        'tag_id'=> 'required',
+        'creador_id' => 'required'
         ]);
         
         Tarea::create($request->all());

@@ -16,11 +16,17 @@ class Tarea extends Model
         'descripcion',
         'fecha_comienzo',
         'fecha_final',
-        'tag_id'
+        'tag_id',
+        'creador_id'
     ];
     
     public function tag()
     {
         return $this->belongsTo(Tag::class, 'tag_id');
+    }
+    
+    public function creador()
+    {
+        return $this->belongsTo(User::class, 'creador_id');
     }
 }

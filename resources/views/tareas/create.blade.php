@@ -66,7 +66,9 @@
                 <textarea class="form-control" style="height:150px" name="descripcion" placeholder="Descripcion" required></textarea>
             </div>
         </div>
-
+        <div class="form-group">
+        <input type="hidden" id="creador_id" name="creador_id" value="{{ auth()->user()->id }}">
+        </div>
         <div class="col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Guardar</button>
         </div>
