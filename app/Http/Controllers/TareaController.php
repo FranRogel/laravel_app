@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Providers\AppServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use App\Models\Tarea;
 use App\Models\Tag;
 use Illuminate\Http\Request;

@@ -28,13 +28,13 @@
               <td>{{ $tarea->descripcion }}</td>
               <td>
                   <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST">
+                      <a class="btn btn-info" href="{{ route('tareas.show', $tarea->id) }}">Mostrar</a>
                       @can('manage', $tarea)
-                        <a class="btn btn-info" href="{{ route('tareas.show', $tarea->id) }}">Mostrar</a>
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Borrar</button>
                         <a class="btn btn-primary" href="{{ route('tareas.edit', $tarea->id) }}">Editar</a>
                       @endcan
-                      @csrf
-                      @method('DELETE')
-                      <button type="submit" class="btn btn-danger">Borrar</button>
                   </form>
               </td>
           </tr>
