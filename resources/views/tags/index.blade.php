@@ -1,4 +1,4 @@
-@extends('tareas.layout')
+@extends('tags.layout')
 
 @section('content')
     <div class="row">
@@ -14,36 +14,31 @@
             <p>{{ $message }}</p>
         </div>
     @endif
-  @foreach ($tags as $tag)
   <table class="table table-bordered">
-  <h3> {{$tag -> nombre}} </h3>
+    @foreach ($tags as $tag)
       <tr>
           <th>Nombre</th>
-          <th>Descripcion</th>
           <th width="280px">Acciones</th>
       </tr>
-      @foreach ($tag->tareas as $tarea)
           <tr>
-              <td>{{ $tarea->nombre }}</td>
-              <td>{{ $tarea->descripcion }}</td>
+              <td>{{ $tag->nombre }}</td>
               <td>
-                  <form action="{{ route('tareas.destroy', $tarea->id) }}" method="POST">
-                      <a class="btn btn-info" href="{{ route('tareas.show', $tarea->id) }}">Mostrar</a>
-                      @can('manage', $tarea)
+                  <form action="{{ route('tags.destroy', $tag->id) }}" method="POST">
+                      <a class="btn btn-info" href="{{ route('tags.show', $tag->id) }}">Mostrar</a>
+                      @can('admin_access')
                         @csrf
-                        @method('DELETE')
+                      @method('DELETE')
                         <button type="submit" class="btn btn-danger">Borrar</button>
-                        <a class="btn btn-primary" href="{{ route('tareas.edit', $tarea->id) }}">Editar</a>
+                        <a class="btn btn-primary" href="{{ route('tags.edit', $tag->id) }}">Editar</a>
                       @endcan
                   </form>
               </td>
           </tr>
-      @endforeach
-  </table>
-  @endforeach
-  
+    @endforeach
+   </table>
+   
   <div class="pull-right">
-    <a class="btn btn-success" href="{{ route('tareas.create') }}"> Crear Tarea</a>
+    <a class="btn btn-success" href="{{ route('tags.create') }}"> Crear Tag</a>
   </div>
     
 

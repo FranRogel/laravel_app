@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TagController extends Controller
 {
@@ -12,7 +13,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        //
+        $tags = Tag::all();
+        return view('tags.index',compact('tags'));
     }
 
     /**
@@ -20,7 +22,7 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        return view('tags.create');
     }
 
     /**
@@ -28,7 +30,14 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Gate::authorize('admin_access');
+        $request->validate([ 
+        'nombre' => 'required'
+        ]);
+        
+        Tag::create($request->all());
+        
+        return redirect()->route('tags.index')->with('success', 'Tag creado correctamente');
     }
 
     /**
@@ -36,7 +45,9 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        Gate::authorize('admin_access');
+        $tareas = $tag->tareas;
+        return view('tags.show', compact('tag','tareas'));
     }
 
     /**
@@ -44,7 +55,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+         return view('tags.edit', compact('tag'));
     }
 
     /**
@@ -52,7 +63,15 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+        Gate::authorize('admin_access');
+        $request->validate([ 
+        'nombre' => 'required'
+        ]);
+        
+        $tag->update($request->all());
+        
+        return redirect()->route('tags.index')
+                        ->with('success', 'Tag actualizado correctamente');
     }
 
     /**
@@ -60,6 +79,9 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        Gate::authorize('admin_access');
+        $tag->delete();
+        return redirect()->route('tags.index')
+            ->with('success', 'Tag eliminado correctamente');
     }
 }

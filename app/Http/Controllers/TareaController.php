@@ -54,7 +54,11 @@ class TareaController extends Controller
      */
     public function show(Tarea $tarea)
     {
-        //
+        $creador = $tarea->creador;
+        $tag = $tarea->tag;
+        
+        return view('tareas.show', compact('tarea','creador','tag'));
+        
     }
 
     /**
