@@ -8,7 +8,8 @@ class Tag extends Model
 {
      protected $table = 'tags';
          protected $fillable = [ 
-        'nombre'
+        'nombre',
+        'prioridad'
      ];
      
      public function tareas()

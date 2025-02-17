@@ -31,6 +31,8 @@
             <div class="form-group">
                 <strong>Nombre:</strong>
                 <input type="text" name="nombre" value="{{ $tag->nombre }}"class="form-control" placeholder="Nombre" required>
+                <strong>Orden:</strong>
+                <input type="number" name="prioridad" value="{{ $tag->prioridad }}" class="form-control" placeholder="Prioridad" min="0" required>
             </div>
         </div>
     </div>

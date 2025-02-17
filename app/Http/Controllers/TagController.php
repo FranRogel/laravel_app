@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Providers\AppServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
+use App\Models\Tarea;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+
 
 class TagController extends Controller
 {
@@ -13,7 +17,7 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::all();
+        $tags = Tag::orderBy('prioridad', 'asc')->get();
         return view('tags.index',compact('tags'));
     }
 
@@ -31,13 +35,23 @@ class TagController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('admin_access');
+        
         $request->validate([ 
-        'nombre' => 'required'
+        'nombre' => 'required|unique:tags,nombre',
+        'prioridad' => 'required'
         ]);
         
-        Tag::create($request->all());
+        $tag = Tag::create($request->all());
+
+        Log::info('Tag creado', [
+                'usuario' => auth()->user() ? auth()->user()->name : 'Desconocido',
+                'tag' => $tag->toArray()
+                   ]);
         
         return redirect()->route('tags.index')->with('success', 'Tag creado correctamente');
+
+    
+
     }
 
     /**
@@ -64,11 +78,18 @@ class TagController extends Controller
     public function update(Request $request, Tag $tag)
     {
         Gate::authorize('admin_access');
+        
         $request->validate([ 
-        'nombre' => 'required'
+        'nombre' => 'required|unique:tags,nombre',
+        'prioridad' => 'required'
         ]);
         
         $tag->update($request->all());
+
+        Log::info('Tag Actualizado', [
+            'usuario' => auth()->user() ? auth()->user()->name : 'Desconocido',
+            'tag' => $tag->toArray()
+               ]);
         
         return redirect()->route('tags.index')
                         ->with('success', 'Tag actualizado correctamente');

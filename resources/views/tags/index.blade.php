@@ -4,11 +4,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="pull-left">
-                <h2>Laravel 8 CRUD Example</h2>
+                <h2>Laravel 8 CRUD Example <a class="btn btn-success" href="{{ route('dashboard') }}">Volver</a> </h2>
             </div>
         </div>
     </div>
-    <a class="btn btn-success"  href="{{route('dashboard')}}">Volver</a>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
